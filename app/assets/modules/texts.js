@@ -8,6 +8,9 @@ module.exports = {
     small_text:{
         fontSize: 20
     },
+    big_text:{
+        fontSize: 30
+    },
     big_text_blue:{
         fontSize: 35,
         fontFamily: "Roboto",

@@ -32,4 +32,6 @@ module.exports = {
   small_margin_top:{
     marginTop: 10
   }
+
+  
 };

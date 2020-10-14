@@ -5,7 +5,9 @@ import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 //********************************** EXTERNAL PACKAGES **********************************
 import Slider from '@react-native-community/slider';
 import AddPlayer from '../components/add_player/add_player';
+import {Categories} from '../constants/questions';
 
+import {Dropdown} from 'react-native-material-dropdown-v2';
 //**************************************** STYLES ***************************************
 import {styles} from '../assets/index';
 
@@ -16,11 +18,16 @@ export default class StartGame extends Component {
     super();
     this.state = {
       rounds: 1,
-      players_names: [],
+      players_names: ['DFSD', 'SDFDS'],
+      chosen_question_category: '',
     };
   }
 
   //*************************************** HANDLERS **************************************
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevState, this.state);
+  }
+
   remove_players(index) {
     let players_names = this.state.players_names;
     players_names.splice(index, 1);
@@ -40,13 +47,27 @@ export default class StartGame extends Component {
   };
 
   start_game() {
-    if (this.state.players_names.includes('')) {
-      Alert.alert('Players names cannot be empty');
+    let players_names = this.state.players_names;
+    let errors = [];
+    if (players_names.includes('')) {
+      errors.push('Players names cannot be empty');
+    }
+    if (players_names.length < 2) {
+      errors.push('Minimum amount of players are 2');
+    }
+    if (this.state.chosen_question_category.length == 0) {
+      errors.push('You need to choose a category');
+    }
+
+    if (errors.length > 0) {
+      Alert.alert('Game cannot be started', errors.join('\n'));
     } else {
       this.props.navigation.navigate('PassPlayer', {
         players_names: this.state.players_names,
         rounds: this.state.rounds,
         current_player: 0,
+        curr_round_results: [],
+        global_results: [],
       });
     }
   }
@@ -61,6 +82,13 @@ export default class StartGame extends Component {
         </Text>
         <View style={styles.medium_margin}>
           <Text> Questions </Text>
+          <Dropdown
+            label="Choose question pack"
+            data={Categories}
+            onChangeText={(value) =>
+              this.setState({chosen_question_category: value})
+            }
+          />
         </View>
         <Text style={styles.medium_margin}>Rounds {this.state.rounds} </Text>
         <Slider

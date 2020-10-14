@@ -38,7 +38,7 @@ export default class AddPlayer extends Component {
             <FontAwesomeIcon
               size={30}
               icon={faMinusCircle}
-              onPress={() => this.removeplayer()}
+              onPress={() => this.props.remove_player(this.props.index)}
             />
           </View>
         </View>
