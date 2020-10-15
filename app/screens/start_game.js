@@ -2,14 +2,13 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 
-
 //********************************** EXTERNAL PACKAGES **********************************
 import Slider from '@react-native-community/slider';
 import AddPlayer from '../components/add_player/add_player';
 import {Categories} from '../constants/questions';
 import {Dropdown} from 'react-native-material-dropdown-v2';
-import { connect } from 'react-redux';
-import {start_game} from "../actions/game";
+import {connect} from 'react-redux';
+import {start_game} from '../actions/game';
 //**************************************** STYLES ***************************************
 import {styles} from '../assets/index';
 
@@ -25,11 +24,11 @@ class StartGame extends Component {
     };
   }
 
-  //*************************************** HANDLERS **************************************
   componentDidUpdate(prevProps, prevState) {
     console.log(prevState, this.state);
   }
 
+  //*************************************** HANDLERS **************************************
   remove_players(index) {
     let players_names = this.state.players_names;
     players_names.splice(index, 1);
@@ -64,15 +63,14 @@ class StartGame extends Component {
     if (errors.length > 0) {
       Alert.alert('Game cannot be started', errors.join('\n'));
     } else {
-      this.props.dispatch(start_game(this.state.players_names, this.state.rounds));
-      this.props.navigation.navigate('PassPlayer', {
-        players_names: this.state.players_names,
-        rounds: this.state.rounds,
-        current_player: 0,
-        target_player: 0,
-        curr_round_results: [],
-        global_results: [],
-      });
+      this.props.dispatch(
+        start_game(
+          this.state.players_names,
+          this.state.rounds,
+          this.state.chosen_question_category,
+        ),
+      );
+      this.props.navigation.navigate('PassPlayer');
     }
   }
 

@@ -1,22 +1,26 @@
+//********************************* REACT NATIVE IMPORTS ********************************
 import React, {Component} from 'react';
-import {View, Text, ScrollView} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+
+//********************************** EXTERNAL PACKAGES **********************************
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faMobileAlt, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {connect} from 'react-redux';
-import {start_game} from '../actions/game';
 
+//**************************************** STYLES ***************************************
 import {styles} from '../assets/index';
 
+//*************************************** GLOBALS ***************************************
 class PassPlayer extends React.Component {
+
+  //*************************************** HANDLERS **************************************
   onBackPressed = () => {
-    console.log('i want to be alone');
     this.props.navigation.goBack();
     return true;
   };
 
   render() {
-
+    //**************************************** RENDER ***************************************
     return (
       <ScrollView contentContainerStyle={styles.main_container}>
         <View style={[styles.small_margin, styles.align_center]}>
@@ -38,6 +42,7 @@ class PassPlayer extends React.Component {
   }
 }
 
+//**************************************** REDUX ****************************************
 const mapStateToProps = (state) => {
   // Redux Store --> Component
   return {
