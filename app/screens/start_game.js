@@ -2,17 +2,19 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 
+
 //********************************** EXTERNAL PACKAGES **********************************
 import Slider from '@react-native-community/slider';
 import AddPlayer from '../components/add_player/add_player';
 import {Categories} from '../constants/questions';
-
 import {Dropdown} from 'react-native-material-dropdown-v2';
+import { connect } from 'react-redux';
+import {start_game} from "../actions/game";
 //**************************************** STYLES ***************************************
 import {styles} from '../assets/index';
 
 //*************************************** GLOBALS ***************************************
-export default class StartGame extends Component {
+class StartGame extends Component {
   //**************************************** SETUP ****************************************
   constructor() {
     super();
@@ -62,10 +64,12 @@ export default class StartGame extends Component {
     if (errors.length > 0) {
       Alert.alert('Game cannot be started', errors.join('\n'));
     } else {
+      this.props.dispatch(start_game(this.state.players_names, this.state.rounds));
       this.props.navigation.navigate('PassPlayer', {
         players_names: this.state.players_names,
         rounds: this.state.rounds,
         current_player: 0,
+        target_player: 0,
         curr_round_results: [],
         global_results: [],
       });
@@ -129,3 +133,4 @@ export default class StartGame extends Component {
     );
   }
 }
+export default connect()(StartGame);

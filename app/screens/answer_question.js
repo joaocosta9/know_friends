@@ -1,21 +1,30 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
+import {General, NSFW} from '../constants/questions';
+import {connect} from 'react-redux';
+import {start_game} from '../actions/game';
 
-export default class AnswerQuestion extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      players_names: this.props.route.params.players_names,
-      rounds: this.props.route.params.rounds,
-      current_player: this.props.route.params.current_player,
-      curr_round_results: this.props.route.params.curr_round_results,
-      global_results: this.props.route.params.global_results,
-    };
-  }
-
+class AnswerQuestion extends React.Component {
   render() {
-    return <View>
-
-    </View>;
+    const current_player_identifier =
+      this.props.target_player == this.props.current_player
+        ? 'you'
+        : this.props.players_names[this.props.current_player];
+    return <View contentContainerStyle={styles.main_container}>
+    <Text style={[styles.big_text_blue, styles.bold, styles.text_center]}>
+      {' '}
+      Match Settings{' '}
+    </Text></View>;
   }
 }
+
+const mapStateToProps = (state) => {
+  // Redux Store --> Component
+  return {
+    current_player: state.gameReducer.current_player,
+    players_names: state.gameReducer.players_names,
+    target_player: state.gameReducer.target_player,
+  };
+};
+
+export default connect(mapStateToProps)(AnswerQuestion);

@@ -6,28 +6,24 @@
  * @flow strict-local
  */
 
-import React, {
-  Component
-} from 'react';
-import {
-  View,
-  Text,
-} from 'react-native';
+import React, {Component} from 'react';
+import {View, Text} from 'react-native';
 
-import BackgroundAnimation from './app/components/background_animation';
-
+import {store} from './app/config/store';
+import {Provider} from 'react-redux';
 //**************************************** STYLES ***************************************
-import { styles } from "./app/assets/index";
+import {styles} from './app/assets/index';
 
-import StackNavigator from "./app/config/routes"
-
+import StackNavigator from './app/config/routes';
 
 export default class App extends Component {
   render() {
-    return ( 
-    <View style={styles.container}>
-      <StackNavigator/>
-    </View>
+    return (
+      <Provider store={store}>
+        <View style={styles.container}>
+          <StackNavigator />
+        </View>
+      </Provider>
     );
   }
 }
