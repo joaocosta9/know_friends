@@ -9,5 +9,5 @@ export const General = [
 ]
 
 export const NSFW = [
-    {question: "Which of these pornstars would you fuck", options: ["meat", "salsache", "poop"]}
+    {question: "You let out a huge fart around your friends, what would you do", options: ["Cringe in silence", "Say \"Ahhh that felt good\"", "Say \"ups\"", "Blame the guy next to you"]}
 ]

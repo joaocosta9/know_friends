@@ -14,4 +14,13 @@ module.exports = {
     borderRadius:10,
     opacity: 2
   },
+  big_button: {
+    width: windowWidth * 0.8,
+    height: 50,
+    backgroundColor: '#bdb76b',
+    justifyContent: 'center',
+    marginTop: 20,
+    borderRadius:10,
+    opacity: 2
+  },
 };

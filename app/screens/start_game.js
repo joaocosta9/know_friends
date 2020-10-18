@@ -19,7 +19,7 @@ class StartGame extends Component {
     super();
     this.state = {
       rounds: 1,
-      players_names: ['DFSD', 'SDFDS'],
+      players_names: ['Joao', 'Pedro'],
       chosen_question_category: '',
     };
   }

@@ -31,7 +31,9 @@ module.exports = {
   },
   small_margin_top:{
     marginTop: 10
-  }
+  },
 
-  
+  small_margin_left:{
+    marginLeft: 10
+  }
 };

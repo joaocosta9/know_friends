@@ -1,6 +1,6 @@
 //********************************* REACT NATIVE IMPORTS ********************************
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 
 //********************************** EXTERNAL PACKAGES **********************************
 import {connect} from 'react-redux';
@@ -10,12 +10,30 @@ import {styles} from '../assets/index';
 
 //*************************************** GLOBALS ***************************************
 import {General, NSFW} from '../constants/questions';
-import {change_question} from '../actions/game';
+import {
+  change_question,
+  insert_correct_answer,
+  insert_answer,
+} from '../actions/game';
 
 class AnswerQuestion extends React.Component {
   //**************************************** SETUP ****************************************
+  constructor() {
+    super();
+    this.state = {
+      current_player: '',
+      isLoading: false,
+    };
+  }
+
   componentDidMount() {
-    if (this.props.target_player == this.props.current_player) {
+    this.setState({
+      current_player:
+        this.props.curr_round_correct_answer == ''
+          ? 'You'
+          : this.props.players_names[this.props.target_player],
+    });
+    if (this.props.curr_round_results.length == 0) {
       var question;
       if (this.props.category == 'General') {
         question = General[Math.floor(Math.random() * General.length)];
@@ -26,27 +44,46 @@ class AnswerQuestion extends React.Component {
     }
   }
 
+  //*************************************** HANDLERS **************************************
+
+   async sumbit_answer(answer) {
+    this.setState({isLoading: true})
+    if (this.props.curr_round_correct_answer == '') {
+      await this.props.dispatch(insert_correct_answer(answer));
+      //replace
+    } else {
+      await this.props.dispatch(insert_answer(this.props.current_player, answer));
+    }
+
+    if (
+      this.props.curr_round_results.length ==
+      this.props.players_names.length - 1
+    ) {
+      this.props.navigation.replace('RoundStatistics');
+    } else {
+      this.props.navigation.replace('PassPlayer');
+    }
+  }
+
   //*************************************** PARTIALS **************************************
   _render_question_option = (item, index) => {
     return (
-      <Text style={[styles.big_text_blue, styles.bold, styles.text_center]}>
-      {' '}
-      {item}{' '}
-    </Text>
+      <TouchableOpacity
+        style={styles.big_button}
+        onPress={() => this.sumbit_answer(item)}
+        disabled={this.state.isLoading}>
+        <Text style={[styles.center_text, styles.bold]}> {item} </Text>
+      </TouchableOpacity>
     );
-  }
+  };
 
   //**************************************** RENDER ***************************************
   render() {
-    const current_player_identifier =
-      this.props.target_player == this.props.current_player
-        ? 'You'
-        : this.props.players_names[this.props.current_player];
     return (
-      <View contentContainerStyle={styles.main_container}>
+      <View style={[styles.main_container, styles.align_center]}>
         <Text style={[styles.big_text_blue, styles.bold, styles.text_center]}>
           {' '}
-          What Would {current_player_identifier} Choose{' '}
+          What Would {this.state.current_player} Choose{' '}
         </Text>
         <Text style={[styles.big_text_blue, styles.bold, styles.text_center]}>
           {' '}
@@ -65,9 +102,11 @@ const mapStateToProps = (state) => {
   return {
     current_player: state.gameReducer.current_player,
     players_names: state.gameReducer.players_names,
-    target_player: state.gameReducer.target_player,
     current_question: state.gameReducer.current_question,
-    category: state.gameReducer.category
+    category: state.gameReducer.category,
+    target_player: state.gameReducer.target_player,
+    curr_round_correct_answer: state.gameReducer.curr_round_correct_answer,
+    curr_round_results: state.gameReducer.curr_round_results,
   };
 };
 

@@ -7,6 +7,9 @@ module.exports = {
         width: windowHeight/3,
         height: windowWidth/1.4,
         resizeMode: 'contain'
+    },
+    big_width:{
+        width: windowHeight/2,
     }
 
 }

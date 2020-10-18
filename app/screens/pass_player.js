@@ -1,6 +1,6 @@
 //********************************* REACT NATIVE IMPORTS ********************************
 import React, {Component} from 'react';
-import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity, BackHandler} from 'react-native';
 
 //********************************** EXTERNAL PACKAGES **********************************
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -14,6 +14,13 @@ import {styles} from '../assets/index';
 class PassPlayer extends React.Component {
 
   //*************************************** HANDLERS **************************************
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      this.onBackPressed();
+      return true;
+    });
+  }
+  
   onBackPressed = () => {
     this.props.navigation.goBack();
     return true;
