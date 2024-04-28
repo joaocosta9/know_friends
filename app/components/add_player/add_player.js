@@ -13,7 +13,7 @@ import {styles} from '../../assets/index';
 export default class AddPlayer extends Component {
   //**************************************** SETUP ****************************************
   constructor() {
-    console.log("hellefeewfewfweffeofefe");
+    console.log("hellefeewfewfweffefewfweofefe");
     super();
   }
   
